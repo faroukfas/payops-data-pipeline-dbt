@@ -1,0 +1,15 @@
+version: 2
+
+exposures:
+  - name: payops_executive_dashboard
+    label: "PayOps Executive Gateway Dashboard"
+    type: dashboard
+    maturity: high
+    url: https://bi.yourcompany.com/dashboards/payops-kpis
+    description: "Executive dashboard tracking daily payment success rates, gateway performance, and USD transaction volumes."
+    depends_on:
+      - ref('rpt_gateway_daily_metrics')
+      - ref('fct_payment_attempts')
+    owner:
+      name: Data Engineering Team
+      email: data-eng@yourcompany.com

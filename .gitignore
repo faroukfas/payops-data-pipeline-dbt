@@ -1,0 +1,15 @@
+# dbt artifacts & logs
+target/
+dbt_packages/
+logs/
+
+# Python & Environments
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# Raw data & local exports
+*.parquet
+*.csv
+*.db

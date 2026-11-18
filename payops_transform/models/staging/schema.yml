@@ -1,0 +1,45 @@
+version: 2
+
+sources:
+  - name: public
+    database: payops_db
+    schema: public
+    tables:
+      - name: raw_payments
+      - name: raw_exchange_rates
+
+models:
+  - name: stg_payments
+    description: "Cleaned raw payment transactions."
+    columns:
+      - name: payment_id
+        description: "Unique identifier for the transaction."
+        tests:
+          - unique
+          - not_null
+
+      - name: payment_status
+        description: "Status of the payment attempt."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values:
+                  ["succeeded", "failed", "pending", "refunded", "disputed"]
+
+      - name: amount
+        description: "Transaction amount."
+        tests:
+          - not_null
+
+  - name: fct_payment_attempts
+    description: "Fact table containing enriched payment performance metrics."
+    columns:
+      - name: payment_id
+        tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_payments')
+                field: payment_id
